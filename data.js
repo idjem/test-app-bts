@@ -132,7 +132,7 @@ exports.newSolvedCaseForm = ({
   subCategoryId,
 } = {}) => {
   let form = [isIssueSolvedSelect(isTicketSolved)];
-  if (categoryId || subCategoryId)
+  if (isTicketSolved || categoryId || subCategoryId)
     form = form.concat(...solvedTicketForm({ categoryId, subCategoryId }));
   return {
     canvas: {
