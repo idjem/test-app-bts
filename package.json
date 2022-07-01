@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/idjem/test-app-bts/issues"
   },
-  "homepage": "https://github.com/idjem/test-app-bts#readme"
+  "homepage": "https://github.com/idjem/test-app-bts#readme",
+  "dependencies": {
+    "express": "4.18.1"
+  }
 }

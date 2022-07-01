@@ -1,9 +1,13 @@
-const http = require('http')
+const express = require('express')
+const app = express()
 
+const data = {
+}
 
-const server = http.createServer((req, res) => {
-  res.end('hello word');
+app.post('/salesforce', (req, res) => {
+  res.json(data)
 })
 
-
-server.listen(process.env.PORT)
+app.listen(process.env.PORT, () => {
+  console.log(`Example app listening on port ${port}`)
+})
