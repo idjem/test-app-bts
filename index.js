@@ -1,106 +1,72 @@
 const express = require("express");
 const app = express();
 
-const data = {
-  canvas: {
-    content: {
-      components: [
-        {
-          type: "data-table",
-          items: [
-            {
-              type: "field-value",
-              field: "Contact Name",
-              value: "Value 1",
-            },
-            {
-              type: "field-value",
-              field: "Account Name",
-              value: "Value 2",
-            },
-            {
-              type: "field-value",
-              field: "Segment",
-              value: "Value 3",
-            },
-            {
-              type: "field-value",
-              field: "Number of people",
-              value: "Value 3",
-            },
-            {
-              type: "field-value",
-              field: "Extra care / client at risk",
-              value: "Value 3",
-            },
-            {
-              type: "field-value",
-              field: "Current payroll month",
-              value: "Value 3",
-            },
-            {
-              type: "field-value",
-              field: "Next payroll",
-              value: "Value3",
-            },
-            {
-              type: "field-value",
-              field: "Open cases",
-              value: "Value 3 ",
-            },
-            {
-              type: "field-value",
-              field: "Name of CSM",
-              value: "Value 3 ",
-            },
-            {
-              type: "field-value",
-              field: "Billing account name",
-              value: "Value 3 ",
-            },
-            {
-              type: "field-value",
-              field: "First revenue date",
-              value: "Value 3 ",
-            },
-            {
-              type: "field-value",
-              field: "Plan",
-              value: "Value 3",
-            },
-            {
-              type: "field-value",
-              field: "Current TNPS",
-              value: "Value 3 ",
-            },
-            {
-              type: "field-value",
-              field: "Last NPS",
-              value: "Value 3",
-            },
-            {
-              type: "field-value",
-              field: "Last CSAT",
-              value: "Value 3",
-            },
-          ],
-        },
-      ],
-    },
-  },
-};
+const { salesforcePreview, newSolvedCaseForm } = require("./data");
+const {
+  ticketSolvedOption,
+  isTicketSolved,
+  ticketCategory,
+  ticketSubCategories,
+  ticketSolvedSubmit,
+} = require("./forms");
+
+app.use(express.json());
 
 app.post("/salesforce", (req, res) => {
-  let  data = ''
-  req.on('data', (d) => {
-    data = data + d
-  })
-  req.on('end', () => {
-    console.log(data)
-    res.json(data);
-  })
-  
-  
+  res.status(200).json(salesforcePreview);
+});
+
+app.post("/init-new-case", (req, res) => {
+  res.status(200).json(newSolvedCaseForm());
+});
+
+app.post("/new-case", (req, res) => {
+  const data = req.body;
+  const inputValues = data.input_values;
+  const ticketSolved = inputValues["is-solved"];
+
+  if (
+    // initial ticket solved form
+    data.component_id === isTicketSolved.id &&
+    ticketSolved === ticketSolvedOption.id
+  ) {
+    res.status(200).json(newSolvedCaseForm({ isTicketSolved: ticketSolved }));
+  } else if (
+    // category selected ticket solved form
+    ticketSolved === ticketSolvedOption.id &&
+    data.component_id === ticketCategory().id
+  ) {
+    res.status(200).json(
+      newSolvedCaseForm({
+        isTicketSolved: ticketSolved,
+        categoryId: inputValues[data.component_id],
+      })
+    );
+  } else if (
+    // subcategory selected ticket solved form
+    ticketSolved === ticketSolvedOption.id &&
+    data.component_id === ticketSubCategories().id
+  ) {
+    const categoryId = inputValues[ticketCategory().id];
+    const subCategoryId = inputValues[ticketSubCategories(categoryId).id];
+
+    res.status(200).json(
+      newSolvedCaseForm({
+        isTicketSolved: ticketSolved,
+        categoryId: inputValues[ticketCategory().id],
+        subCategoryId,
+      })
+    );
+  } else if (
+    // submit ticket solved form
+    ticketSolved === ticketSolvedOption.id &&
+    data.component_id === ticketSolvedSubmit.id
+  ) {
+    console.log("sends solved ticket to salesforce");
+    res.status(200).json({ ok: "ok" });
+  } else {
+    res.status(200).json(newSolvedCaseForm());
+  }
 });
 
 app.listen(process.env.PORT, () => {
