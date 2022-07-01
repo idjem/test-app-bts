@@ -43,6 +43,7 @@ exports.ticketType = {
       id: "option-1",
       text: "Option 1",
     },
+    { type: "option", id: "option-2", text: "Option 2" },
   ],
 };
 exports.ticketCategory = (categoryId) => ({
