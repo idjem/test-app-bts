@@ -91,7 +91,16 @@ const data = {
 };
 
 app.post("/salesforce", (req, res) => {
-  res.json(data);
+  let  data = ''
+  req.on('data', (d) => {
+    data = data + d
+  })
+  req.on('end', () => {
+    console.log(data)
+    res.json(data);
+  })
+  
+  
 });
 
 app.listen(process.env.PORT, () => {
