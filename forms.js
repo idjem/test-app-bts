@@ -80,3 +80,22 @@ exports.ticketSolvedSubmit = {
     type: "submit",
   },
 };
+exports.ticketLevel = (value) => ({
+  type: "dropdown",
+  id: "ticket-level",
+  label: "Ticket level",
+  options: [
+    { type: "option", id: "ticket-level-1", text: "Level 1" },
+    { type: "option", id: "ticket-level-2", text: "Level 2" },
+    {
+      type: "option",
+      id: "ticket-level-escalation",
+      text: "Specific escalation",
+    },
+    { type: "option", id: "ticket-level-decla", text: "Decla" },
+  ],
+  action: {
+    type: "submit",
+  },
+  value,
+});

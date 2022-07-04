@@ -1,13 +1,14 @@
 const express = require("express");
 const app = express();
 
-const { salesforcePreview, newSolvedCaseForm } = require("./data");
+const { salesforcePreview, newSolvedCaseForm, newCaseForm } = require("./data");
 const {
   ticketSolvedOption,
   isTicketSolved,
   ticketCategory,
   ticketSubCategories,
   ticketSolvedSubmit,
+  ticketNotSolvedOption,
 } = require("./forms");
 
 app.use(express.json());
@@ -76,6 +77,16 @@ app.post("/new-case", (req, res) => {
       res.status(200).json({ ok: "ok", values: inputValues });
     }
     res.status(400);
+  } else if (
+    // ticket is not solved
+    ticketSolved === ticketNotSolvedOption.id
+  ) {
+    if (
+      // initial new case form
+      data.component_id === isTicketSolved.id
+    ) {
+      res.status(200).json(newCaseForm({ isTicketSolved: ticketSolved }));
+    }
   } else {
     res.status(200).json(newSolvedCaseForm());
   }

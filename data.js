@@ -7,6 +7,7 @@ const {
   ticketSubCategories,
   ticketSubCategories2,
   ticketSolvedSubmit,
+  ticketLevel,
 } = require("./forms");
 
 exports.salesforcePreview = {
@@ -137,6 +138,22 @@ exports.newSolvedCaseForm = ({
     form = form.concat(
       ...solvedTicketForm({ categoryId, subCategoryId, inputValues })
     );
+  return {
+    canvas: {
+      content: {
+        components: form,
+      },
+    },
+  };
+};
+
+exports.newCaseForm = ({ isTicketSolved } = {}) => {
+  let form = [isIssueSolvedSelect(isTicketSolved)];
+
+  if (isTicketSolved) {
+    form.push(ticketLevel());
+  }
+
   return {
     canvas: {
       content: {
