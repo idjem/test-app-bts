@@ -21,19 +21,21 @@ exports.isTicketSolved = {
   options: [this.ticketSolvedOption, this.ticketNotSolvedOption],
   action: { type: "submit" },
 };
-exports.ticketSubject = {
+exports.ticketSubject = (value) => ({
   type: "input",
   id: "ticket-subject",
   label: "Subject",
   placeholder: "Enter subject here...",
-};
-exports.ticketDescription = {
+  value,
+});
+exports.ticketDescription = (value) => ({
   type: "textarea",
   id: "ticket-description",
   label: "Description",
   placeholder: "Enter text here...",
-};
-exports.ticketType = {
+  value,
+});
+exports.ticketType = (value) => ({
   type: "dropdown",
   id: "ticket-case-type",
   label: "Case type",
@@ -45,7 +47,8 @@ exports.ticketType = {
     },
     { type: "option", id: "option-2", text: "Option 2" },
   ],
-};
+  value,
+});
 exports.ticketCategory = (categoryId) => ({
   type: "dropdown",
   id: "ticket-case-category",

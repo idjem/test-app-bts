@@ -103,11 +103,11 @@ const isIssueSolvedSelect = (value) => ({
   value,
 });
 
-const solvedTicketForm = ({ categoryId, subCategoryId } = {}) => {
+const solvedTicketForm = ({ categoryId, subCategoryId, inputValues } = {}) => {
   let baseForm = [
-    ticketSubject,
-    ticketDescription,
-    ticketType,
+    ticketSubject(inputValues["ticket-subject"]),
+    ticketDescription(inputValues["ticket-description"]),
+    ticketType(inputValues["ticket-case-type"]),
     ticketCategory(categoryId),
   ];
   if (categoryId) {
@@ -130,10 +130,13 @@ exports.newSolvedCaseForm = ({
   isTicketSolved,
   categoryId,
   subCategoryId,
+  inputValues,
 } = {}) => {
   let form = [isIssueSolvedSelect(isTicketSolved)];
   if (isTicketSolved || categoryId || subCategoryId)
-    form = form.concat(...solvedTicketForm({ categoryId, subCategoryId }));
+    form = form.concat(
+      ...solvedTicketForm({ categoryId, subCategoryId, inputValues })
+    );
   return {
     canvas: {
       content: {
