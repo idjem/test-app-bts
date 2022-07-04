@@ -155,7 +155,7 @@ exports.newCaseForm = ({ isTicketSolved, inputValues } = {}) => {
   let form = [isIssueSolvedSelect(isTicketSolved)];
 
   if (isTicketSolved) {
-    form.push(ticketLevel());
+    form.push(ticketLevel(inputValues["ticket-level"]));
   }
 
   if (inputValues["ticket-level"] !== undefined) {
