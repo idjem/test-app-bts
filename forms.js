@@ -99,6 +99,27 @@ exports.ticketLevel = (value) => ({
   },
   value,
 });
+exports.ticketCaseSubject = (value) => ({
+  type: "input",
+  id: "ticket-subject",
+  label: "Subject",
+  placeholder: "Enter subject here...",
+  value,
+});
+exports.ticketCaseDescription = (value) => ({
+  type: "textarea",
+  id: "ticket-description",
+  label: "Description",
+  placeholder: "Enter text here...",
+  value,
+});
+exports.ticketCaseComment = (value) => ({
+  type: "textarea",
+  id: "ticket-comment",
+  label: "Comment",
+  placeholder: "Enter text here...",
+  value,
+});
 exports.ticketCaseSubmit = {
   type: "button",
   id: "ticket-submit",

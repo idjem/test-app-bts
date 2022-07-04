@@ -9,6 +9,9 @@ const {
   ticketSolvedSubmit,
   ticketLevel,
   ticketCaseSubmit,
+  ticketCaseDescription,
+  ticketCaseComment,
+  ticketCaseSubject,
 } = require("./forms");
 
 exports.salesforcePreview = {
@@ -153,6 +156,15 @@ exports.newCaseForm = ({ isTicketSolved, inputValues } = {}) => {
 
   if (isTicketSolved) {
     form.push(ticketLevel());
+  }
+
+  if (inputValues["ticket-level"] !== undefined) {
+    // common fields for all ticket level
+    form = form.concat([
+      ticketCaseSubject(inputValues["ticket-subject"]),
+      ticketCaseDescription(inputValues["ticket-description"]),
+      ticketCaseComment(inputValues["ticket-comment"]),
+    ]);
   }
 
   if (
