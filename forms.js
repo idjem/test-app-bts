@@ -27,13 +27,14 @@ exports.ticketSubject = (value) => ({
   label: "Subject",
   placeholder: "Enter subject here...",
   value,
+  value: value !== "" ? value : undefined,
 });
 exports.ticketDescription = (value) => ({
   type: "textarea",
   id: "ticket-description",
   label: "Description",
   placeholder: "Enter text here...",
-  value,
+  value: value !== "" ? value : undefined,
 });
 exports.ticketType = (value) => ({
   type: "dropdown",
@@ -47,7 +48,7 @@ exports.ticketType = (value) => ({
     },
     { type: "option", id: "option-2", text: "Option 2" },
   ],
-  value,
+  value: value !== "" ? value : undefined,
 });
 exports.ticketCategory = (categoryId) => ({
   type: "dropdown",
@@ -97,28 +98,28 @@ exports.ticketLevel = (value) => ({
   action: {
     type: "submit",
   },
-  value,
+  value: value !== "" ? value : undefined,
 });
 exports.ticketCaseSubject = (value) => ({
   type: "input",
   id: "ticket-subject",
   label: "Subject",
   placeholder: "Enter subject here...",
-  value,
+  value: value !== "" ? value : undefined,
 });
 exports.ticketCaseDescription = (value) => ({
   type: "textarea",
   id: "ticket-description",
   label: "Description",
   placeholder: "Enter text here...",
-  value,
+  value: value !== "" ? value : undefined,
 });
 exports.ticketCaseComment = (value) => ({
   type: "textarea",
   id: "ticket-comment",
   label: "Comment",
   placeholder: "Enter text here...",
-  value,
+  value: value !== "" ? value : undefined,
 });
 exports.ticketEscalation = (value) => ({
   type: "dropdown",
@@ -128,14 +129,14 @@ exports.ticketEscalation = (value) => ({
     { type: "option", id: "ticket-escalation-1", text: "Escalation 1" },
     { type: "option", id: "ticket-escalation-2", text: "Escalation 2" },
   ],
-  value,
+  value: value !== "" ? value : undefined,
 });
 exports.ticketEscalationComment = (value) => ({
   type: "textarea",
   id: "ticket-escalation-comment",
   label: "Specific escalation comment",
   placeholder: "Enter text here...",
-  value,
+  value: value !== "" ? value : undefined,
 });
 exports.ticketDeclaOrganism = (value) => ({
   type: "dropdown",
@@ -145,7 +146,7 @@ exports.ticketDeclaOrganism = (value) => ({
     { type: "option", id: "ticket-decla-1", text: "Decla 1" },
     { type: "option", id: "ticket-decla-2", text: "Decla 2" },
   ],
-  value,
+  value: value !== "" ? value : undefined,
 });
 exports.ticketCaseSubmit = {
   type: "button",
