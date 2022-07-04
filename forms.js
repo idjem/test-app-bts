@@ -120,6 +120,24 @@ exports.ticketCaseComment = (value) => ({
   placeholder: "Enter text here...",
   value,
 });
+exports.ticketEscalation = (value) => ({
+  type: "dropdown",
+  id: "ticket-escalation",
+  label: "Specific escalation",
+  options: [
+    { type: "option", id: "ticket-escalation-1", text: "Escalation 1" },
+    { type: "option", id: "ticket-escalation-2", text: "Escalation 2" },
+  ],
+  action: { type: "submit" },
+  value,
+});
+exports.ticketEscalationComment = (value) => ({
+  type: "textarea",
+  id: "ticket-escalation-comment",
+  label: "Specific escalation comment",
+  placeholder: "Enter text here...",
+  value,
+});
 exports.ticketCaseSubmit = {
   type: "button",
   id: "ticket-submit",
