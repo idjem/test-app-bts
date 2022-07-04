@@ -9,6 +9,7 @@ const {
   ticketSubCategories,
   ticketSolvedSubmit,
   ticketNotSolvedOption,
+  ticketLevel,
 } = require("./forms");
 
 app.use(express.json());
@@ -85,7 +86,15 @@ app.post("/new-case", (req, res) => {
       // initial new case form
       data.component_id === isTicketSolved.id
     ) {
-      res.status(200).json(newCaseForm({ isTicketSolved: ticketSolved }));
+      res
+        .status(200)
+        .json(newCaseForm({ isTicketSolved: ticketSolved, inputValues }));
+    } else if (
+      ticketLevel().options.some((level) => level.id === data.component_id)
+    ) {
+      res
+        .status(200)
+        .json(newCaseForm({ isTicketSolved: ticketSolved, inputValues }));
     }
   } else {
     res.status(200).json(newSolvedCaseForm());

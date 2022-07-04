@@ -8,6 +8,7 @@ const {
   ticketSubCategories2,
   ticketSolvedSubmit,
   ticketLevel,
+  ticketCaseSubmit,
 } = require("./forms");
 
 exports.salesforcePreview = {
@@ -147,11 +148,18 @@ exports.newSolvedCaseForm = ({
   };
 };
 
-exports.newCaseForm = ({ isTicketSolved } = {}) => {
+exports.newCaseForm = ({ isTicketSolved, inputValues } = {}) => {
   let form = [isIssueSolvedSelect(isTicketSolved)];
 
   if (isTicketSolved) {
     form.push(ticketLevel());
+  }
+
+  if (
+    inputValues["ticket-level"] === "ticket-level-1" ||
+    inputValues["ticket-level"] === "ticket-level-2"
+  ) {
+    form.push(ticketCaseSubmit);
   }
 
   return {

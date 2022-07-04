@@ -99,3 +99,12 @@ exports.ticketLevel = (value) => ({
   },
   value,
 });
+exports.ticketCaseSubmit = {
+  type: "button",
+  id: "ticket-submit",
+  label: "Create new case",
+  style: "primary",
+  action: {
+    type: "submit",
+  },
+};
