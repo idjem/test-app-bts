@@ -128,7 +128,6 @@ exports.ticketEscalation = (value) => ({
     { type: "option", id: "ticket-escalation-1", text: "Escalation 1" },
     { type: "option", id: "ticket-escalation-2", text: "Escalation 2" },
   ],
-  action: { type: "submit" },
   value,
 });
 exports.ticketEscalationComment = (value) => ({
