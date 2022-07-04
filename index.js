@@ -12,6 +12,8 @@ const {
   ticketLevel,
 } = require("./forms");
 
+const {init, createCase} = require('./salesForce')
+
 app.use(express.json());
 
 app.post("/salesforce", (req, res) => {
@@ -22,7 +24,7 @@ app.post("/init-new-case", (req, res) => {
   res.status(200).json(newSolvedCaseForm());
 });
 
-app.post("/new-case", (req, res) => {
+app.post("/new-case", async (req, res) => {
   const data = req.body;
   const inputValues = data.input_values;
   const ticketSolved = inputValues["is-solved"];
@@ -74,7 +76,14 @@ app.post("/new-case", (req, res) => {
     // submit the solved case form
     else if (data.component_id === ticketSolvedSubmit.id) {
       console.log("sends solved ticket to salesforce");
+      const conn = await init()
+      await createCase(conn, {
+        //Subject: ,
+        //Description: ,
+        //FR_Case_Type__c:
+      })
       console.log(inputValues);
+
       res.status(200).json({ ok: "ok", values: inputValues });
     }
     res.status(400);
@@ -101,6 +110,8 @@ app.post("/new-case", (req, res) => {
   }
 });
 
+
 app.listen(process.env.PORT, () => {
   console.log(`Example app listening on port ${process.env.PORT}`);
 });
+
