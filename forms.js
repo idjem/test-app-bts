@@ -137,6 +137,16 @@ exports.ticketEscalationComment = (value) => ({
   placeholder: "Enter text here...",
   value,
 });
+exports.ticketDeclaOrganism = (value) => ({
+  type: "dropdown",
+  id: "ticket-decla-organism",
+  label: "Organisme concerné",
+  options: [
+    { type: "option", id: "ticket-decla-1", text: "Decla 1" },
+    { type: "option", id: "ticket-decla-2", text: "Decla 2" },
+  ],
+  value,
+});
 exports.ticketCaseSubmit = {
   type: "button",
   id: "ticket-submit",

@@ -14,6 +14,7 @@ const {
   ticketCaseSubject,
   ticketEscalation,
   ticketEscalationComment,
+  ticketDeclaOrganism,
 } = require("./forms");
 
 exports.salesforcePreview = {
@@ -174,12 +175,15 @@ exports.newCaseForm = ({ isTicketSolved, inputValues } = {}) => {
     inputValues["ticket-level"] === "ticket-level-2"
   ) {
     form.push(ticketCaseSubmit);
-  }
-
-  if (inputValues["ticket-level"] === "ticket-level-escalation") {
+  } else if (inputValues["ticket-level"] === "ticket-level-escalation") {
     form = form.concat([
       ticketEscalation(inputValues["ticket-escalation"]),
       ticketEscalationComment(inputValues["ticket-escalation-comment"]),
+      ticketCaseSubmit,
+    ]);
+  } else if (inputValues["ticket-level"] === "ticket-level-decla") {
+    form = form.concat([
+      ticketDeclaOrganism(inputValues["ticket-decla-organism"]),
       ticketCaseSubmit,
     ]);
   }
