@@ -47,7 +47,9 @@ app.post("/new-case", (req, res) => {
   } else if (
     // subcategory selected ticket solved form
     ticketSolved === ticketSolvedOption.id &&
-    data.component_id === ticketSubCategories().id
+    ticketSubCategories(inputValues[ticketCategory().id]).options.some(
+      (subCategory) => subCategory.id === data.component_id
+    )
   ) {
     const categoryId = inputValues[ticketCategory().id];
     const subCategoryId = inputValues[ticketSubCategories(categoryId).id];
@@ -65,7 +67,8 @@ app.post("/new-case", (req, res) => {
     data.component_id === ticketSolvedSubmit.id
   ) {
     console.log("sends solved ticket to salesforce");
-    res.status(200).json({ ok: "ok" });
+    console.log(inputValues);
+    res.status(200).json({ ok: "ok", values: inputValues });
   } else {
     res.status(200).json(newSolvedCaseForm());
   }
