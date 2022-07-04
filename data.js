@@ -122,8 +122,10 @@ const solvedTicketForm = ({ categoryId, subCategoryId, inputValues } = {}) => {
     baseForm.push(ticketSubCategories(categoryId, subCategoryId));
   }
   if (subCategoryId) {
+    const subCategories2Field = ticketSubCategories2(categoryId, subCategoryId);
+
+    if (subCategories2Field) baseForm.push(subCategories2Field);
     baseForm = baseForm.concat([
-      ticketSubCategories2(categoryId, subCategoryId),
       {
         type: "spacer",
         size: "m",

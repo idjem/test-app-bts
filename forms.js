@@ -66,12 +66,20 @@ exports.ticketSubCategories = (categoryId, subCategoryId) => ({
   value: subCategoryId,
   action: { type: "submit" },
 });
-exports.ticketSubCategories2 = (categoryId, subCategoryId) => ({
-  type: "dropdown",
-  id: "ticket-case-subcategory2",
-  label: "Case Sub-category2",
-  options: getSubCategories2SelectOptions(categoryId, subCategoryId),
-});
+exports.ticketSubCategories2 = (categoryId, subCategoryId) => {
+  const subCategories2Options = getSubCategories2SelectOptions(
+    categoryId,
+    subCategoryId
+  );
+  // intercom yields an error if dropdown has less than 2 options
+  if (subCategories2Options.length < 2) return;
+  return {
+    type: "dropdown",
+    id: "ticket-case-subcategory2",
+    label: "Case Sub-category2",
+    options: subCategories2Options,
+  };
+};
 exports.ticketSolvedSubmit = {
   type: "button",
   id: "ticket-submit",
