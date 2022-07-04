@@ -62,6 +62,7 @@ app.post("/new-case", (req, res) => {
         isTicketSolved: ticketSolved,
         categoryId: inputValues[ticketCategory().id],
         subCategoryId,
+        inputValues,
       })
     );
   } else if (
