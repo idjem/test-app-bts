@@ -34,12 +34,14 @@ app.post("/new-case", (req, res) => {
   } else if (
     // category selected ticket solved form
     ticketSolved === ticketSolvedOption.id &&
-    data.component_id === ticketCategory().id
+    ticketCategory().options.some(
+      (category) => category.id === data.component_id
+    )
   ) {
     res.status(200).json(
       newSolvedCaseForm({
         isTicketSolved: ticketSolved,
-        categoryId: inputValues[data.component_id],
+        categoryId: data.component_id,
       })
     );
   } else if (
