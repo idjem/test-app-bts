@@ -17,7 +17,7 @@ const {
   ticketDeclaOrganism,
 } = require("./forms");
 
-exports.salesforcePreview = {
+exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
   canvas: {
     content: {
       components: [
@@ -27,37 +27,37 @@ exports.salesforcePreview = {
             {
               type: "field-value",
               field: "Contact Name",
-              value: "Value 1",
+              value: `${payfitAdminUser.FirstName__c} ${payfitAdminUser.LastName__c}`,
             },
             {
               type: "field-value",
               field: "Account Name",
-              value: "Value 2",
+              value: contact.Account_Name__c,
             },
             {
               type: "field-value",
               field: "Segment",
-              value: "Value 3",
+              value: billingAccount.Client_Segment__c,
             },
             {
               type: "field-value",
               field: "Number of people",
-              value: "Value 3",
+              value: billingAccount.nb_of_people__c,
             },
             {
               type: "field-value",
               field: "Extra care / client at risk",
-              value: "Value 3",
+              value: contact.Account.Extra_Care__c,
             },
             {
               type: "field-value",
               field: "Current payroll month",
-              value: "Value 3",
+              value: billingAccount.Current_Run_Payroll_Month__c,
             },
             {
               type: "field-value",
               field: "Next payroll",
-              value: "Value3",
+              value: billingAccount.Next_Payroll__c,
             },
             {
               type: "field-value",
@@ -67,44 +67,29 @@ exports.salesforcePreview = {
             {
               type: "field-value",
               field: "Name of CSM",
-              value: "Value 3 ",
+              value: billingAccount.Account_Customer_Care_owner__c,
             },
             {
               type: "field-value",
               field: "Billing account name",
-              value: "Value 3 ",
+              value: billingAccount.Name,
             },
             {
               type: "field-value",
               field: "First revenue date",
-              value: "Value 3 ",
+              value: billingAccount.First_revenue_date__c,
             },
             {
               type: "field-value",
               field: "Plan",
-              value: "Value 3",
-            },
-            {
-              type: "field-value",
-              field: "Current TNPS",
-              value: "Value 3 ",
-            },
-            {
-              type: "field-value",
-              field: "Last NPS",
-              value: "Value 3",
-            },
-            {
-              type: "field-value",
-              field: "Last CSAT",
-              value: "Value 3",
+              value: billingAccount.Plan__c,
             },
           ],
         },
       ],
     },
   },
-};
+});
 
 const isIssueSolvedSelect = (value) => ({
   ...isTicketSolved,

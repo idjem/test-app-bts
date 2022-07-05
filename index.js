@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
+require("dotenv").config();
 
-const { salesforcePreview, newSolvedCaseForm, newCaseForm } = require("./data");
+const { salesforceUser, newSolvedCaseForm, newCaseForm } = require("./data");
 const {
   ticketSolvedOption,
   isTicketSolved,
@@ -10,14 +11,34 @@ const {
   ticketSolvedSubmit,
   ticketNotSolvedOption,
   ticketLevel,
+  ticketCaseSubmit,
 } = require("./forms");
 
-const {init, createCase} = require('./salesForce')
+const {
+  init,
+  getPayfitAdmin,
+  getContact,
+  getBillingAccount,
+  getOpenCasesFromCompany,
+} = require("./salesForce");
 
 app.use(express.json());
 
-app.post("/salesforce", (req, res) => {
-  res.status(200).json(salesforcePreview);
+app.post("/salesforce", async (req, res) => {
+  const data = req.body;
+  const conn = await init();
+  const users = await getPayfitAdmin(conn, data.user_id);
+  const user = users[0];
+  const contact = await getContact(conn, user.contact__c);
+  const billingAccount = await getBillingAccount(conn, user.billingAccount);
+  const openCases = await getOpenCasesFromCompany(conn, user.billingAccount);
+  res.status(200).json(
+    salesforceUser({
+      payfitAdminUser: user,
+      contact: contact[0],
+      billingAccount: billingAccount[0],
+    })
+  );
 });
 
 app.post("/init-new-case", (req, res) => {
@@ -75,15 +96,7 @@ app.post("/new-case", async (req, res) => {
     }
     // submit the solved case form
     else if (data.component_id === ticketSolvedSubmit.id) {
-      console.log("sends solved ticket to salesforce");
-      const conn = await init()
-      await createCase(conn, {
-        //Subject: ,
-        //Description: ,
-        //FR_Case_Type__c:
-      })
-      console.log(inputValues);
-
+      // create salesforce case
       res.status(200).json({ ok: "ok", values: inputValues });
     }
     res.status(400);
@@ -104,14 +117,26 @@ app.post("/new-case", async (req, res) => {
       res
         .status(200)
         .json(newCaseForm({ isTicketSolved: ticketSolved, inputValues }));
+    } else if (data.component_id === ticketCaseSubmit.id) {
+      console.log("send unsolved case to salesforce");
+      const conn = await init();
+      console.log("connected to salesforce");
+      res.status(200).json({
+        canvas: {
+          content: {
+            components: {
+              type: "text",
+              text: "submited",
+            },
+          },
+        },
+      });
     }
   } else {
     res.status(200).json(newSolvedCaseForm());
   }
 });
 
-
 app.listen(process.env.PORT, () => {
   console.log(`Example app listening on port ${process.env.PORT}`);
 });
-
