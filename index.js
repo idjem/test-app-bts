@@ -26,6 +26,7 @@ app.use(express.json());
 
 app.post("/salesforce", async (req, res) => {
   const data = req.body;
+  console.log("DEBUG =======>", JSON.stringify(data, null, 2));
   const conn = await init();
   const users = await getPayfitAdmin(conn, data.user_id);
   const user = users[0];
