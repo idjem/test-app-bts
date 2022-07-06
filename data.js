@@ -47,7 +47,7 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
             {
               type: "field-value",
               field: "Extra care / client at risk",
-              value: contact.Account.Extra_Care__c ?? "null",
+              value: contact.Account.Extra_Care__c ? "Yes" : "No",
             },
             {
               type: "field-value",
