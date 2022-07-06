@@ -152,6 +152,16 @@ app.post("/new-case", async (req, res) => {
                 type: "text",
                 text: "New solved case created",
               },
+              {
+                type: "button",
+                id: "new-case-url",
+                label: "Open case in salesforce",
+                style: "link",
+                action: {
+                  type: "url",
+                  url: `${process.env.SALESFORCE_CONSOLE_URL}/r/Case/${newCase.id}/view`,
+                },
+              },
             ],
           },
         },
@@ -217,6 +227,16 @@ app.post("/new-case", async (req, res) => {
               {
                 type: "text",
                 text: "New unsolved case created",
+              },
+              {
+                type: "button",
+                id: "new-case-url",
+                label: "Open case in salesforce",
+                style: "link",
+                action: {
+                  type: "url",
+                  url: `${process.env.SALESFORCE_CONSOLE_URL}/r/Case/${newCase.id}/view`,
+                },
               },
             ],
           },
