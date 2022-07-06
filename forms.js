@@ -43,10 +43,19 @@ exports.ticketType = (value) => ({
   options: [
     {
       type: "option",
-      id: "option-1",
-      text: "Option 1",
+      id: "ticket-case-type-incident",
+      text: "Incident, bug, erreur",
     },
-    { type: "option", id: "option-2", text: "Option 2" },
+    {
+      type: "option",
+      id: "ticket-case-type-unavailable-action",
+      text: "Action non disponible dans l'app côté client",
+    },
+    {
+      type: "option",
+      id: "ticket-case-type-help",
+      text: "Une demande d’information, conseil, aide",
+    },
   ],
   value: value !== "" ? value : undefined,
 });
@@ -134,8 +143,51 @@ exports.ticketEscalation = (value) => ({
   id: "ticket-escalation",
   label: "Specific escalation",
   options: [
-    { type: "option", id: "ticket-escalation-1", text: "Escalation 1" },
-    { type: "option", id: "ticket-escalation-2", text: "Escalation 2" },
+    {
+      type: "option",
+      id: "ticket-escalation-new-company",
+      text: "J’ai besoin de créer un nouvel établissement > OBS",
+    },
+    {
+      type: "option",
+      id: "ticket-escalation-mass-import",
+      text: "J’ai besoin d’importer des employés en masse sont exclus : les absences, bonus et et autres variables récurrentes > OBS",
+    },
+    {
+      type: "option",
+      id: "ticket-escalation-edit-billing",
+      text: "J’ai besoin de modifier mes informations de facturation > Finance",
+    },
+    {
+      type: "option",
+      id: "ticket-escalation-comeback",
+      text: "Je me suis désabonné et je voudrais revenir sur PayFit > Finance",
+    },
+    {
+      type: "option",
+      id: "ticket-escalation-contract-negociaiton",
+      text: "J’ai besoin de négocier mon contrat opportunités d’up-sell et de cross-sell, churn > CSM",
+    },
+    {
+      type: "option",
+      id: "ticket-escalation-learning",
+      text: "Je souhaite être formé sur [...] > APS Filtre",
+    },
+    {
+      type: "option",
+      id: "ticket-escalation-webhelp",
+      text: "Webhelp - CCR",
+    },
+    {
+      type: "option",
+      id: "ticket-escalation-cem",
+      text: "J’aimerais que le CEM reprenne la main > CEM",
+    },
+    {
+      type: "option",
+      id: "ticket-escalation-cem-call",
+      text: "J’aimerais être accompagné(e) sur le call > CEM",
+    },
   ],
   value: value !== "" ? value : undefined,
 });
@@ -151,8 +203,23 @@ exports.ticketDeclaOrganism = (value) => ({
   id: "ticket-decla-organism",
   label: "Organisme concerné",
   options: [
-    { type: "option", id: "ticket-decla-1", text: "Decla 1" },
-    { type: "option", id: "ticket-decla-2", text: "Decla 2" },
+    { type: "option", id: "ticket-decla-cpam", text: "CPAM" },
+    { type: "option", id: "ticket-decla-dgfip", text: "DGFIP" },
+    { type: "option", id: "ticket-decla-mutual", text: "Mutuelle" },
+    { type: "option", id: "ticket-decla-provident-fund", text: "Prévoyance" },
+    { type: "option", id: "ticket-decla-pole-emploi", text: "Pôle Emploi" },
+    { type: "option", id: "ticket-decla-urssaf", text: "URSSAF" },
+    {
+      type: "option",
+      id: "ticket-decla-retirement",
+      text: "Retraite Complémentaire",
+    },
+    {
+      type: "option",
+      id: "ticket-decla-retirement-additional",
+      text: "Retraite Supplémentaire",
+    },
+    { type: "option", id: "ticket-decla-dsn", text: "DSN Mensuelles" },
   ],
   value: value !== "" ? value : undefined,
 });
