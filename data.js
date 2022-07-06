@@ -32,32 +32,32 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
             {
               type: "field-value",
               field: "Account Name",
-              value: contact.Account_Name__c,
+              value: contact.Account_Name__c ?? "null",
             },
             {
               type: "field-value",
               field: "Segment",
-              value: billingAccount.Client_Segment__c,
+              value: billingAccount.Client_Segment__c ?? "null",
             },
             {
               type: "field-value",
               field: "Number of people",
-              value: billingAccount.nb_of_people__c,
+              value: billingAccount.nb_of_people__c ?? "null",
             },
             {
               type: "field-value",
               field: "Extra care / client at risk",
-              value: contact.Account.Extra_Care__c,
+              value: contact.Account.Extra_Care__c ?? "null",
             },
             {
               type: "field-value",
               field: "Current payroll month",
-              value: billingAccount.Current_Run_Payroll_Month__c,
+              value: billingAccount.Current_Run_Payroll_Month__c ?? "null",
             },
             {
               type: "field-value",
               field: "Next payroll",
-              value: billingAccount.Next_Payroll__c,
+              value: billingAccount.Next_Payroll__c ?? "null",
             },
             {
               type: "field-value",
@@ -67,22 +67,22 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
             {
               type: "field-value",
               field: "Name of CSM",
-              value: billingAccount.Account_Customer_Care_owner__c,
+              value: billingAccount.Account_Customer_Care_owner__c ?? "null",
             },
             {
               type: "field-value",
               field: "Billing account name",
-              value: billingAccount.Name,
+              value: billingAccount.Name ?? "null",
             },
             {
               type: "field-value",
               field: "First revenue date",
-              value: billingAccount.First_revenue_date__c,
+              value: billingAccount.First_revenue_date__c ?? "null",
             },
             {
               type: "field-value",
               field: "Plan",
-              value: billingAccount.Plan__c,
+              value: billingAccount.Plan__c ?? "null",
             },
           ],
         },
