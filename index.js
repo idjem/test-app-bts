@@ -19,20 +19,19 @@ const {
 } = require("./forms");
 
 const {
-  init,
   getPayfitAdmin,
   getContact,
   getBillingAccount,
   getOpenCasesFromCompany,
   createCase,
+  connect,
 } = require("./salesForce");
 
 app.use(express.json());
 
 app.post("/salesforce", async (req, res) => {
   const data = req.body;
-  const conn = await init();
-  const users = await getPayfitAdmin(conn, data.customer.user_id);
+  const users = await getPayfitAdmin(data.customer.user_id);
   if (users.length === 0) {
     return res.status(200).json({
       canvas: {
@@ -46,9 +45,9 @@ app.post("/salesforce", async (req, res) => {
     });
   }
   const user = users[0];
-  const contact = await getContact(conn, user.contact__c);
-  const billingAccount = await getBillingAccount(conn, user.billingAccount);
-  const openCases = await getOpenCasesFromCompany(conn, user.billingAccount);
+  const contact = await getContact(user.contact__c);
+  const billingAccount = await getBillingAccount(user.billingAccount);
+  const openCases = await getOpenCasesFromCompany(user.billingAccount);
   res.status(200).json(
     salesforceUser({
       payfitAdminUser: user,
@@ -114,8 +113,7 @@ app.post("/new-case", async (req, res) => {
     // submit the solved case form
     else if (data.component_id === ticketSolvedSubmit.id) {
       // create salesforce case
-      const conn = await init();
-      const users = await getPayfitAdmin(conn, data.customer.user_id);
+      const users = await getPayfitAdmin(data.customer.user_id);
       const caseCategory = getCategory(inputValues["ticket-case-category"]);
       const subCategory = caseCategory.subCategories.find(
         (subCategory) =>
@@ -143,7 +141,7 @@ app.post("/new-case", async (req, res) => {
         Payfit_Admin__c: users[0].Id,
         Status: "Solved",
       };
-      const newCase = await createCase(conn, salesforceCase);
+      const newCase = await createCase(salesforceCase);
       return res.status(200).json({
         canvas: {
           content: {
@@ -188,8 +186,7 @@ app.post("/new-case", async (req, res) => {
     } else if (data.component_id === ticketCaseSubmit.id) {
       console.log("send unsolved case to salesforce");
       // create salesforce case
-      const conn = await init();
-      const users = await getPayfitAdmin(conn, data.customer.user_id);
+      const users = await getPayfitAdmin(data.customer.user_id);
       const caseLevel = ticketLevel().options.find(
         (level) => level.id === inputValues["ticket-level"]
       );
@@ -215,11 +212,8 @@ app.post("/new-case", async (req, res) => {
         );
         salesforceCase.Organisme_Contact__c = declaOrganism.text;
       }
-      const newCase = await createCase(conn, salesforceCase);
-      const cases = await getOpenCasesFromCompany(
-        conn,
-        users[0].Billing_Account__c
-      );
+      const newCase = await createCase(salesforceCase);
+      const cases = await getOpenCasesFromCompany(users[0].Billing_Account__c);
       res.status(200).json({
         canvas: {
           content: {
@@ -248,6 +242,15 @@ app.post("/new-case", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Example app listening on port ${process.env.PORT}`);
-});
+(async () => {
+  // connect to salesforce
+  try {
+    await connect();
+  } catch (err) {
+    throw new Error("Cannot connect to salesforce");
+  }
+  console.log("Connected to Salesforce");
+  app.listen(process.env.PORT, () => {
+    console.log(`App listening on port ${process.env.PORT}`);
+  });
+})();

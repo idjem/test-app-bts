@@ -6,8 +6,10 @@ const {
   SALESFORCE_ACCESS_TOKEN = "",
 } = process.env;
 
-const init = () => {
-  const salesforceClient = new jsforce.Connection({
+let salesforceClient;
+
+const connect = () => {
+  salesforceClient = new jsforce.Connection({
     loginUrl: SALESFORCE_LOGIN_URL,
     accessToken: SALESFORCE_ACCESS_TOKEN,
   });
@@ -23,30 +25,30 @@ const init = () => {
   });
 };
 
-const getPayfitAdmin = (conn, userId) =>
-  conn.sobject("payfit_user__c").find({
+const getPayfitAdmin = (userId) =>
+  salesforceClient.sobject("payfit_user__c").find({
     PayFit_User_ID__c: userId,
   });
 
-const getContact = (conn, contactId) =>
-  conn.sobject("Contact").select("*, Account.Extra_Care__c").where({
+const getContact = (contactId) =>
+  salesforceClient.sobject("Contact").select("*, Account.Extra_Care__c").where({
     Full_ID_Contact__c: contactId,
   });
 
-const getBillingAccount = (conn, billingAccountId) =>
-  conn.sobject("Zuora__CustomerAccount__c").find({
+const getBillingAccount = (billingAccountId) =>
+  salesforceClient.sobject("Zuora__CustomerAccount__c").find({
     BO_ID__c: billingAccountId,
   });
 
-const getOpenCasesFromCompany = (conn, companyId) =>
-  conn.sobject("Case").find({
+const getOpenCasesFromCompany = (companyId) =>
+  salesforceClient.sobject("Case").find({
     Billing_Account__c: companyId,
   });
 
-const createCase = (conn, ticket) => conn.sobject("Case").create(ticket);
+const createCase = (ticket) => salesforceClient.sobject("Case").create(ticket);
 
 module.exports = {
-  init,
+  connect,
   createCase,
   getPayfitAdmin,
   getContact,
