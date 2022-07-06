@@ -1,14 +1,14 @@
 const COMPANY = {
   id: "company",
-  text: "Etablissement / holding",
+  text: "Concerne l'établissement, la holding (info & paramètres)",
 };
 const ORGANIZATIONS = {
   id: "organizations",
-  text: "Organisme / décla",
+  text: "Concerne un organisme, des décla",
 };
 const EMPLOYEES = {
   id: "employees",
-  text: "Concerne un ou plusieurs salariés",
+  text: "Concerne un ou plusieurs salariés (setup et gestion)",
 };
 const INTEGRATIONS = {
   id: "integrations",
@@ -375,4 +375,8 @@ exports.getCategoriesSelectOptions = () => {
     id: category.id,
     text: category.text,
   }));
+};
+
+exports.getCategory = (categoryId) => {
+  return categories.find((category) => category.id === categoryId);
 };

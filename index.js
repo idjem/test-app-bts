@@ -1,4 +1,5 @@
 const express = require("express");
+const { getCategory } = require("./categories");
 const app = express();
 require("dotenv").config();
 
@@ -12,6 +13,9 @@ const {
   ticketNotSolvedOption,
   ticketLevel,
   ticketCaseSubmit,
+  ticketType,
+  ticketEscalation,
+  ticketDeclaOrganism,
 } = require("./forms");
 
 const {
@@ -20,13 +24,13 @@ const {
   getContact,
   getBillingAccount,
   getOpenCasesFromCompany,
+  createCase,
 } = require("./salesForce");
 
 app.use(express.json());
 
 app.post("/salesforce", async (req, res) => {
   const data = req.body;
-  console.log("DEBUG =======>", JSON.stringify(data, null, 2));
   const conn = await init();
   const users = await getPayfitAdmin(conn, data.customer.user_id);
   if (users.length === 0) {
@@ -110,7 +114,46 @@ app.post("/new-case", async (req, res) => {
     // submit the solved case form
     else if (data.component_id === ticketSolvedSubmit.id) {
       // create salesforce case
-      res.status(200).json({ ok: "ok", values: inputValues });
+      const conn = await init();
+      const users = await getPayfitAdmin(conn, data.customer.user_id);
+      const caseCategory = getCategory(inputValues["ticket-case-category"]);
+      const subCategory = caseCategory.subCategories.find(
+        (subCategory) =>
+          subCategory.id === inputValues["ticket-case-subcategory"]
+      );
+      let subCategory2 = undefined;
+      if (subCategory.subCategories2) {
+        subCategory2 = subCategory.subCategories2.find(
+          (subCategory2) =>
+            subCategory2.id === inputValues["ticket-case-subcategory2"]
+        );
+      }
+      const caseType = ticketType().options.find(
+        (type) => type.id === inputValues["ticket-case-type"]
+      );
+      const salesforceCase = {
+        Subject: inputValues["ticket-subject"],
+        Description: inputValues["ticket-description"],
+        FR_Case_Type__c: caseType.text,
+        FR_Case_Category__c: caseCategory.text,
+        FR_Case_SubCategory__c: subCategory?.text,
+        FR_Case_Sub_Category2__c: subCategory2?.text,
+        Comments: inputValues["ticket-comments"],
+        Billing_Account__c: users[0].Billing_Account__c,
+        Payfit_Admin__c: users[0].Id,
+        Status: "Solved",
+      };
+      const newCase = await createCase(conn, salesforceCase);
+      return res.status(200).json({
+        canvas: {
+          content: {
+            components: {
+              type: "text",
+              text: "New solved case created",
+            },
+          },
+        },
+      });
     }
     res.status(400);
   } else if (
@@ -132,14 +175,45 @@ app.post("/new-case", async (req, res) => {
         .json(newCaseForm({ isTicketSolved: ticketSolved, inputValues }));
     } else if (data.component_id === ticketCaseSubmit.id) {
       console.log("send unsolved case to salesforce");
+      // create salesforce case
       const conn = await init();
-      console.log("connected to salesforce");
+      const users = await getPayfitAdmin(conn, data.customer.user_id);
+      const caseLevel = ticketLevel().options.find(
+        (level) => level.id === inputValues["ticket-level"]
+      );
+      const salesforceCase = {
+        Subject: inputValues["ticket-subject"],
+        Description: inputValues["ticket-description"],
+        // Organisme_Contact__c: caseType.text,
+        FR_Level__c: caseLevel.text,
+        Comments: inputValues["ticket-comments"],
+        Billing_Account__c: users[0].Billing_Account__c,
+        Payfit_Admin__c: users[0].Id,
+      };
+      if (inputValues["ticket-level"] === "ticket-level-escalation") {
+        const specificEscalation = ticketEscalation().options.find(
+          (escalation) => escalation.id === inputValues["ticket-escalation"]
+        );
+        salesforceCase.FR_Specific_Escalation__c = specificEscalation.text;
+        salesforceCase.FR_Specific_Escalation_Comment__c =
+          inputValues["ticket-escalation-comment"];
+      } else if (inputValues["ticket-level"] === "ticket-level-decla") {
+        const declaOrganism = ticketDeclaOrganism().options.find(
+          (declaOrganism) => declaOrganism.id === "ticket-decla-cpam"
+        );
+        salesforceCase.Organisme_Contact__c = declaOrganism.text;
+      }
+      const newCase = await createCase(conn, salesforceCase);
+      const cases = await getOpenCasesFromCompany(
+        conn,
+        users[0].Billing_Account__c
+      );
       res.status(200).json({
         canvas: {
           content: {
             components: {
               type: "text",
-              text: "submited",
+              text: "New unsolved case created",
             },
           },
         },

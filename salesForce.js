@@ -43,15 +43,7 @@ const getOpenCasesFromCompany = (conn, companyId) =>
     Billing_Account__c: companyId,
   });
 
-const createCase = (conn, ticket) =>
-  new Promise((resolve, reject) => {
-    conn.sobject("Case").create(ticket, function (err, ret) {
-      if (err || !ret.success) {
-        return reject(err);
-      }
-      resolve(ret.id);
-    });
-  });
+const createCase = (conn, ticket) => conn.sobject("Case").create(ticket);
 
 module.exports = {
   init,
