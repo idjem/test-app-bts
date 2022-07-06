@@ -28,7 +28,7 @@ const EMPLOYEES_ROLE_PERMISSION = {
 };
 const APP_ACCESS = {
   id: "app-access",
-  text: "Accès à l'app (mdp oublié, etc.)",
+  text: "Accès à l'app (mdp, mail...)",
 };
 const PAYFIT_CONTRACT = {
   id: "payfit-contract",
@@ -36,11 +36,11 @@ const PAYFIT_CONTRACT = {
 };
 const PRICING_INCREASE = {
   id: "pricing-increase",
-  text: "Campagne augmentation",
+  text: "Campagne d'augmentation",
 };
 const PRICING_OTHER = {
   id: "pricing-other",
-  text: "Autres sujets liés au contrat / pricing",
+  text: "Autres sujets contrat / pricing",
 };
 const ACTION_REQUIRED = {
   id: "action-required",
@@ -64,7 +64,7 @@ const SEPA_DOCUMENT = {
 };
 const PAYMENT_DURING_MONTH = {
   id: "payment-during-month",
-  text: "Acomptes, paiement en cours de mois, etc.",
+  text: "Acomptes / paiement en cours de mois, etc",
 };
 const HR_DATA = {
   id: "hr-data",
@@ -80,7 +80,7 @@ const EXONERATION = {
 };
 const AUDIT = {
   id: "audit",
-  text: "Audit, régularisation, paramétrage, etc.",
+  text: "Audit, régularisation, paramétrage...",
 };
 const RETIREMENT = {
   id: "retirement",
@@ -172,7 +172,7 @@ const CONTRACT_MANAGEMENT = {
 };
 const CONTRACT_CHANGE = {
   id: "contract-change",
-  text: "Modification de contrat",
+  text: "Modification d'un contrat",
 };
 const CONTRACT_END = {
   id: "contract-end",
