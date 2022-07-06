@@ -147,10 +147,12 @@ app.post("/new-case", async (req, res) => {
       return res.status(200).json({
         canvas: {
           content: {
-            components: {
-              type: "text",
-              text: "New solved case created",
-            },
+            components: [
+              {
+                type: "text",
+                text: "New solved case created",
+              },
+            ],
           },
         },
       });
@@ -211,10 +213,12 @@ app.post("/new-case", async (req, res) => {
       res.status(200).json({
         canvas: {
           content: {
-            components: {
-              type: "text",
-              text: "New unsolved case created",
-            },
+            components: [
+              {
+                type: "text",
+                text: "New unsolved case created",
+              },
+            ],
           },
         },
       });
