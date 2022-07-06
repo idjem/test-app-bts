@@ -28,7 +28,19 @@ app.post("/salesforce", async (req, res) => {
   const data = req.body;
   console.log("DEBUG =======>", JSON.stringify(data, null, 2));
   const conn = await init();
-  const users = await getPayfitAdmin(conn, data.user_id);
+  const users = await getPayfitAdmin(conn, data.customer.user_id);
+  if (users.length === 0) {
+    return res.status(200).json({
+      canvas: {
+        content: {
+          components: {
+            type: "text",
+            text: "No salesforce user was found for this conversation",
+          },
+        },
+      },
+    });
+  }
   const user = users[0];
   const contact = await getContact(conn, user.contact__c);
   const billingAccount = await getBillingAccount(conn, user.billingAccount);
