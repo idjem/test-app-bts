@@ -42,7 +42,7 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
             {
               type: "field-value",
               field: "Number of people",
-              value: billingAccount.nb_of_people__c ?? "null",
+              value: billingAccount.nb_of_people__c?.toString() ?? "null",
             },
             {
               type: "field-value",
