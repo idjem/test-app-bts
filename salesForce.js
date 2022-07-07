@@ -45,7 +45,11 @@ const getOpenCasesFromCompany = (companyId) =>
     Billing_Account__c: companyId,
   });
 
-const createCase = (ticket) => salesforceClient.sobject("Case").create(ticket);
+const createCase = (ticket) =>
+  salesforceClient.sobject("Case").create({
+    ...ticket,
+    Origin: "Intercom",
+  });
 
 module.exports = {
   connect,

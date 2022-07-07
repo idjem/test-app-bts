@@ -4,6 +4,10 @@ const {
   getSubCategories2SelectOptions,
 } = require("./categories");
 
+const DESCRIPTION_DEFAULT_VALUE = `Contexte :
+Employés impactés :
+Investigation / action effectués :`;
+
 exports.ticketSolvedOption = {
   type: "option",
   id: "ticket-solved",
@@ -34,7 +38,7 @@ exports.ticketDescription = (value) => ({
   id: "ticket-description",
   label: "Description",
   placeholder: "Enter text here...",
-  value: value !== "" ? value : undefined,
+  value: value !== "" ? value : DESCRIPTION_DEFAULT_VALUE,
 });
 exports.ticketType = (value) => ({
   type: "dropdown",
@@ -117,6 +121,49 @@ exports.ticketLevel = (value) => ({
   },
   value: value !== "" ? value : undefined,
 });
+exports.ticketLevel2EscalationReason = (value) => ({
+  type: "dropdown",
+  id: "ticket-level-2-escalation-reason",
+  label: "Level 2 escalation reason",
+  options: [
+    {
+      type: "option",
+      id: "ticket-level-2-escalation-uncomplete",
+      text: "Les articles du HC et les macros ne fournissent pas une réponse complètes",
+    },
+    {
+      type: "option",
+      id: "ticket-level-2-escalation-aggression",
+      text: "Suite à ma 1ère réponse, le client devient agressif",
+    },
+    {
+      type: "option",
+      id: "ticket-level-2-escalation-app",
+      text: "J’ai besoin d’aller sur les “actions cachées” ou la “pre-prod” via l’app",
+    },
+    {
+      type: "option",
+      id: "ticket-level-2-escalation-impact",
+      text: "Le problème impact plus de 3 employés",
+    },
+    {
+      type: "option",
+      id: "ticket-level-2-escalation-long",
+      text: "La requête a 2 touches* minimum ET est ouverte depuis au moins 2 business day",
+    },
+    {
+      type: "option",
+      id: "ticket-level-2-escalation-csm",
+      text: "Je suis CSM mais je traite un ticket de Level 1",
+    },
+    {
+      type: "option",
+      id: "ticket-level-2-escalation-other",
+      text: "Autre raison ?",
+    },
+  ],
+  value: value !== "" ? value : undefined,
+});
 exports.ticketCaseSubject = (value) => ({
   type: "input",
   id: "ticket-subject",
@@ -129,7 +176,7 @@ exports.ticketCaseDescription = (value) => ({
   id: "ticket-description",
   label: "Description",
   placeholder: "Enter text here...",
-  value: value !== "" ? value : undefined,
+  value: value !== "" ? value : DESCRIPTION_DEFAULT_VALUE,
 });
 exports.ticketEscalation = (value) => ({
   type: "dropdown",
