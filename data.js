@@ -10,7 +10,6 @@ const {
   ticketLevel,
   ticketCaseSubmit,
   ticketCaseDescription,
-  ticketCaseComment,
   ticketCaseSubject,
   ticketEscalation,
   ticketEscalationComment,
@@ -153,7 +152,6 @@ exports.newCaseForm = ({ isTicketSolved, inputValues } = {}) => {
     form = form.concat([
       ticketCaseSubject(inputValues["ticket-subject"]),
       ticketCaseDescription(inputValues["ticket-description"]),
-      ticketCaseComment(inputValues["ticket-comment"]),
     ]);
   }
 

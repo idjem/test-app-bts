@@ -136,7 +136,6 @@ app.post("/new-case", async (req, res) => {
         FR_Case_Category__c: caseCategory.text,
         FR_Case_SubCategory__c: subCategory?.text,
         FR_Case_Sub_Category2__c: subCategory2?.text,
-        Comments: inputValues["ticket-comments"],
         Billing_Account__c: users[0].Billing_Account__c,
         Payfit_Admin__c: users[0].Id,
         Status: "Solved",
@@ -195,7 +194,6 @@ app.post("/new-case", async (req, res) => {
         Description: inputValues["ticket-description"],
         // Organisme_Contact__c: caseType.text,
         FR_Level__c: caseLevel.text,
-        Comments: inputValues["ticket-comments"],
         Billing_Account__c: users[0].Billing_Account__c,
         Payfit_Admin__c: users[0].Id,
       };

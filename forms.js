@@ -131,13 +131,6 @@ exports.ticketCaseDescription = (value) => ({
   placeholder: "Enter text here...",
   value: value !== "" ? value : undefined,
 });
-exports.ticketCaseComment = (value) => ({
-  type: "textarea",
-  id: "ticket-comment",
-  label: "Comment",
-  placeholder: "Enter text here...",
-  value: value !== "" ? value : undefined,
-});
 exports.ticketEscalation = (value) => ({
   type: "dropdown",
   id: "ticket-escalation",
