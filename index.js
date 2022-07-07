@@ -22,7 +22,6 @@ const {
   getPayfitAdmin,
   getContact,
   getBillingAccount,
-  getOpenCasesFromCompany,
   createCase,
   connect,
 } = require("./salesForce");
@@ -47,7 +46,6 @@ app.post("/salesforce", async (req, res) => {
   const user = users[0];
   const contact = await getContact(user.contact__c);
   const billingAccount = await getBillingAccount(user.billingAccount);
-  const openCases = await getOpenCasesFromCompany(user.billingAccount);
   res.status(200).json(
     salesforceUser({
       payfitAdminUser: user,
@@ -211,7 +209,6 @@ app.post("/new-case", async (req, res) => {
         salesforceCase.Organisme_Contact__c = declaOrganism.text;
       }
       const newCase = await createCase(salesforceCase);
-      const cases = await getOpenCasesFromCompany(users[0].Billing_Account__c);
       res.status(200).json({
         canvas: {
           content: {

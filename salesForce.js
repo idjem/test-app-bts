@@ -40,11 +40,6 @@ const getBillingAccount = (billingAccountId) =>
     BO_ID__c: billingAccountId,
   });
 
-const getOpenCasesFromCompany = (companyId) =>
-  salesforceClient.sobject("Case").find({
-    Billing_Account__c: companyId,
-  });
-
 const createCase = (ticket) =>
   salesforceClient.sobject("Case").create({
     ...ticket,
@@ -57,5 +52,4 @@ module.exports = {
   getPayfitAdmin,
   getContact,
   getBillingAccount,
-  getOpenCasesFromCompany,
 };
