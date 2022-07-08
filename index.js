@@ -44,14 +44,10 @@ app.post("/salesforce", async (req, res) => {
   );
 });
 
-app.post("/init-new-case", (req, res) => {
-  res.status(200).json(newSolvedCaseForm());
-});
-
 app.post("/new-case", async (req, res) => {
   const data = req.body;
   const inputValues = data.input_values;
-  const ticketSolved = inputValues["is-solved"];
+  const ticketSolved = inputValues["is-case-solved"];
 
   // submit the solved case form
   if (
@@ -60,23 +56,22 @@ app.post("/new-case", async (req, res) => {
   ) {
     // create salesforce case
     const users = await getPayfitAdmin(data.customer.user_id);
-    const caseCategory = getCategory(inputValues["ticket-case-category"]);
+    const caseCategory = getCategory(inputValues["case-category"]);
     const subCategory = caseCategory.subCategories.find(
-      (subCategory) => subCategory.id === inputValues["ticket-case-subcategory"]
+      (subCategory) => subCategory.id === inputValues["case-subcategory"]
     );
     let subCategory2 = undefined;
     if (subCategory.subCategories2) {
       subCategory2 = subCategory.subCategories2.find(
-        (subCategory2) =>
-          subCategory2.id === inputValues["ticket-case-subcategory2"]
+        (subCategory2) => subCategory2.id === inputValues["case-subcategory2"]
       );
     }
     const caseType = ticketType().options.find(
-      (type) => type.id === inputValues["ticket-case-type"]
+      (type) => type.id === inputValues["case-type"]
     );
     const salesforceCase = {
-      Subject: inputValues["ticket-subject"],
-      Description: inputValues["ticket-description"],
+      Subject: inputValues["subject"],
+      Description: inputValues["description"],
       FR_Case_Type__c: caseType.text,
       FR_Case_Category__c: caseCategory.text,
       FR_Case_SubCategory__c: subCategory?.text,
@@ -116,26 +111,26 @@ app.post("/new-case", async (req, res) => {
     // create salesforce case
     const users = await getPayfitAdmin(data.customer.user_id);
     const caseLevel = ticketLevel().options.find(
-      (level) => level.id === inputValues["ticket-level"]
+      (level) => level.id === inputValues["case-level"]
     );
     const salesforceCase = {
-      Subject: inputValues["ticket-subject"],
-      Description: inputValues["ticket-description"],
+      Subject: inputValues["case-subject"],
+      Description: inputValues["case-description"],
       // Organisme_Contact__c: caseType.text,
       FR_Level__c: caseLevel.text,
       Billing_Account__c: users[0].Billing_Account__c,
       Payfit_Admin__c: users[0].Id,
     };
-    if (inputValues["ticket-level"] === "ticket-level-escalation") {
+    if (inputValues["case-level"] === "case-level-escalation") {
       const specificEscalation = ticketEscalation().options.find(
-        (escalation) => escalation.id === inputValues["ticket-escalation"]
+        (escalation) => escalation.id === inputValues["case-escalation"]
       );
       salesforceCase.FR_Specific_Escalation__c = specificEscalation.text;
       salesforceCase.FR_Specific_Escalation_Comment__c =
-        inputValues["ticket-escalation-comment"];
-    } else if (inputValues["ticket-level"] === "ticket-level-decla") {
+        inputValues["case-escalation-comment"];
+    } else if (inputValues["case-level"] === "case-level-decla") {
       const declaOrganism = ticketDeclaOrganism().options.find(
-        (declaOrganism) => declaOrganism.id === "ticket-decla-cpam"
+        (declaOrganism) => declaOrganism.id === "case-decla-cpam"
       );
       salesforceCase.Organisme_Contact__c = declaOrganism.text;
     }
