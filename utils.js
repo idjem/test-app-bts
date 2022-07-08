@@ -18,6 +18,11 @@ const getOptionValue = (formObject, valueId) => {
   }
 };
 
+const getValue = (inputObject, inputValue) => {
+  if (inputValue === undefined) return inputObject.defaultValue;
+  return inputValue !== "" ? inputValue : undefined;
+};
+
 const matchField = (id, inputObject, componentId) => {
   switch (inputObject.type) {
     case "single-select":
@@ -54,7 +59,7 @@ const generateSingleSelect = (id, inputObject, inputValue) => {
     id: id,
     type: "single-select",
     label: inputObject.label,
-    value: inputValue && inputValue !== "" ? inputValue : undefined,
+    value: getValue(inputObject, inputValue),
     options,
     action: hasSubmit ? { type: "submit" } : undefined,
   };
@@ -66,7 +71,7 @@ const generateInput = (id, inputObject, inputValue) => {
     id,
     label: inputObject.label,
     placeholder: inputObject.placeholder,
-    value: inputValue,
+    value: getValue(inputObject, inputValue),
   };
 };
 
@@ -76,7 +81,7 @@ const generateDropdown = (id, inputObject, inputValue) => {
     type: "dropdown",
     id,
     label: inputObject.label,
-    value: inputValue && inputValue !== "" ? inputValue : undefined,
+    value: getValue(inputObject, inputValue),
     options,
     action: hasSubmit ? { type: "submit" } : undefined,
   };
@@ -87,7 +92,7 @@ const generateTextArea = (id, inputObject, inputValue) => {
     type: "textarea",
     id,
     label: inputObject.label,
-    value: inputValue,
+    value: getValue(inputObject, inputValue),
   };
 };
 
