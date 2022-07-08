@@ -33,10 +33,22 @@ const createCase = (ticket) =>
     Origin: "Intercom",
   });
 
+const getCaseLink = (newCaseId) =>
+  `${process.env.SALESFORCE_CONSOLE_URL}/r/Case/${newCaseId}/view`;
+
+const getCompanyBOLink = (companyId) =>
+  `${process.env.SALESFORCE_BACK_OFFICE_URL}/companies/${companyId}/overview`;
+
+const getBillingAccountLink = (billingAccountId) =>
+  `${process.env.SALESFORCE_CONSOLE_URL}/r/Zuora__CustomerAccount__c/${billingAccountId}/view`;
+
 module.exports = {
   connect,
   createCase,
   getPayfitAdmin,
   getContact,
   getBillingAccount,
+  getCaseLink,
+  getCompanyBOLink,
+  getBillingAccountLink,
 };

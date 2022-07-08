@@ -1,3 +1,4 @@
+const { getCompanyBOLink, getBillingAccountLink } = require("../salesForce");
 const { getOptionValue } = require("../utils");
 const { newCase } = require("./forms");
 
@@ -64,6 +65,30 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
               value: billingAccount.Plan__c ?? "null",
             },
           ],
+        },
+        {
+          type: "spacer",
+          size: "m",
+        },
+        {
+          type: "button",
+          id: "new-case-url",
+          label: "Open company in back office",
+          style: "link",
+          action: {
+            type: "url",
+            url: getCompanyBOLink(payfitAdminUser.PayFit_Company_ID__c),
+          },
+        },
+        {
+          type: "button",
+          id: "new-case-url",
+          label: "Open billing account",
+          style: "link",
+          action: {
+            type: "url",
+            url: getBillingAccountLink(payfitAdminUser.Billing_Account__c),
+          },
         },
       ],
     },

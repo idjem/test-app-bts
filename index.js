@@ -12,6 +12,7 @@ const {
   getBillingAccount,
   createCase,
   connect,
+  getCaseLink,
 } = require("./salesForce");
 
 app.use(express.json());
@@ -71,7 +72,7 @@ app.post("/new-case", async (req, res) => {
               style: "link",
               action: {
                 type: "url",
-                url: `${process.env.SALESFORCE_CONSOLE_URL}/r/Case/${newCase.id}/view`,
+                url: getCaseLink(newCase.id),
               },
             },
           ],
