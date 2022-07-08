@@ -13,8 +13,8 @@ const CASE_DESCRIPTION_INPUT = [
     label: "Description",
     placeholder: "Enter description here...",
     defaultValue: `Contexte :
-    Employés impactés :
-    Investigation / action effectués :`,
+Employés impactés :
+Investigation / action effectués :`,
   },
 ];
 const CASE_SUBMIT_BUTTON = [
