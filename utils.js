@@ -34,7 +34,7 @@ const generateSingleSelect = (id, inputObject, inputValue) => {
     id: id,
     type: "single-select",
     label: inputObject.label,
-    value: inputValue,
+    value: inputValue && inputValue !== "" ? inputValue : undefined,
     options,
     action: hasSubmit ? { type: "submit" } : undefined,
   };
@@ -56,7 +56,7 @@ const generateDropdown = (id, inputObject, inputValue) => {
     type: "dropdown",
     id,
     label: inputObject.label,
-    value: inputValue,
+    value: inputValue && inputValue !== "" ? inputValue : undefined,
     options,
     action: hasSubmit ? { type: "submit" } : undefined,
   };
