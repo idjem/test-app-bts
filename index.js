@@ -155,7 +155,7 @@ app.post("/new-case", async (req, res) => {
       },
     });
   } else {
-    const form = [...generateForm(newCase, inputValues)];
+    const form = [...generateForm(newCase, inputValues, data.component_id)];
     res.status(200).json({
       canvas: {
         content: {

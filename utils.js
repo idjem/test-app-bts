@@ -1,3 +1,14 @@
+const matchField = (id, inputObject, componentId) => {
+  switch (inputObject.type) {
+    case "single-select":
+    case "dropdown": {
+      return inputObject.options.has(componentId);
+    }
+    default:
+      return id === componentId;
+  }
+};
+
 const generateOptions = (optionObject) => {
   const options = [];
   let hasSubmit = false;
@@ -70,7 +81,7 @@ const generateButton = (id, inputObject) => {
   };
 };
 
-const generateForm = function* (formObject, inputValues) {
+const generateForm = function* (formObject, inputValues, componentId) {
   for (const [id, inputObject] of formObject) {
     switch (inputObject.type) {
       case "single-select":
@@ -92,8 +103,17 @@ const generateForm = function* (formObject, inputValues) {
     // generate next step field has next step value
     if (inputValues?.[id] && inputObject.options?.has(inputValues?.[id])) {
       const optionObject = inputObject.options.get(inputValues?.[id]);
-      if (optionObject.nextStep)
-        yield* generateForm(optionObject.nextStep, inputValues);
+      if (optionObject.nextStep) {
+        // next steps of a submit action component must have empty values (otherwise, fields may contain previous form values)
+        const nextInputValues = !matchField(id, inputObject, componentId)
+          ? inputValues
+          : {};
+        yield* generateForm(
+          optionObject.nextStep,
+          nextInputValues,
+          componentId
+        );
+      }
     }
   }
 };
