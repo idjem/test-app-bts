@@ -60,11 +60,6 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
             },
             {
               type: "field-value",
-              field: "First revenue date",
-              value: billingAccount.First_revenue_date__c ?? "null",
-            },
-            {
-              type: "field-value",
               field: "Plan",
               value: billingAccount.Plan__c ?? "null",
             },
