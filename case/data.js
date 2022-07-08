@@ -26,17 +26,17 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
             },
             {
               type: "field-value",
-              field: "Number of people",
+              field: "N° of people",
               value: billingAccount.nb_of_people__c?.toString() ?? "null",
             },
             {
               type: "field-value",
-              field: "Extra care / client at risk",
+              field: "Extra care",
               value: contact.Account.Extra_Care__c ? "Yes" : "No",
             },
             {
               type: "field-value",
-              field: "Current payroll month",
+              field: "Current payroll",
               value: billingAccount.Current_Run_Payroll_Month__c ?? "null",
             },
             {
@@ -51,12 +51,12 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
             },
             {
               type: "field-value",
-              field: "Name of CSM",
+              field: "CSM",
               value: billingAccount.Account_Customer_Care_owner__c ?? "null",
             },
             {
               type: "field-value",
-              field: "Billing account name",
+              field: "BA",
               value: billingAccount.Name ?? "null",
             },
             {
