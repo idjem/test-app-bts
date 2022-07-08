@@ -10,18 +10,8 @@ let salesforceClient;
 
 const connect = () => {
   salesforceClient = new jsforce.Connection({
-    loginUrl: SALESFORCE_LOGIN_URL,
+    instanceUrl: SALESFORCE_LOGIN_URL,
     accessToken: SALESFORCE_ACCESS_TOKEN,
-  });
-  return new Promise((resolve, reject) => {
-    salesforceClient.login(
-      SALESFORCE_LOGIN,
-      SALESFORCE_PASSWORD,
-      function (err, res) {
-        if (err) reject(err);
-        resolve(salesforceClient);
-      }
-    );
   });
 };
 
