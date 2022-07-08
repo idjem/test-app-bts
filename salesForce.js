@@ -1,10 +1,5 @@
 const jsforce = require("jsforce");
-const {
-  SALESFORCE_LOGIN_URL = "",
-  SALESFORCE_LOGIN = "",
-  SALESFORCE_PASSWORD = "",
-  SALESFORCE_ACCESS_TOKEN = "",
-} = process.env;
+const { SALESFORCE_LOGIN_URL = "", SALESFORCE_ACCESS_TOKEN = "" } = process.env;
 
 let salesforceClient;
 
@@ -15,10 +10,12 @@ const connect = () => {
   });
 };
 
-const getPayfitAdmin = (userId) =>
-  salesforceClient.sobject("payfit_user__c").find({
+const getPayfitAdmin = async (userId) => {
+  const payfitAdmins = await salesforceClient.sobject("payfit_user__c").find({
     PayFit_User_ID__c: userId,
   });
+  return payfitAdmins?.[0];
+};
 
 const getContact = (contactId) =>
   salesforceClient.sobject("Contact").select("*, Account.Extra_Care__c").where({

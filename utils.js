@@ -1,3 +1,23 @@
+const getOptionValue = (formObject, valueId) => {
+  for (const [_, inputObject] of formObject) {
+    if (
+      inputObject.type === "dropdown" ||
+      inputObject.type === "single-select"
+    ) {
+      if (inputObject.options.has(valueId)) {
+        return inputObject.options.get(valueId).text;
+      } else {
+        for (const [_, optionObject] of inputObject.options) {
+          if (optionObject.nextStep) {
+            const value = getOptionValue(optionObject.nextStep, valueId);
+            if (value) return value;
+          }
+        }
+      }
+    }
+  }
+};
+
 const matchField = (id, inputObject, componentId) => {
   switch (inputObject.type) {
     case "single-select":
@@ -120,4 +140,5 @@ const generateForm = function* (formObject, inputValues, componentId) {
 
 module.exports = {
   generateForm,
+  getOptionValue,
 };
