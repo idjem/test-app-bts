@@ -47,7 +47,7 @@ app.post("/salesforce", async (req, res) => {
 app.post("/new-case", async (req, res) => {
   const data = req.body;
   const inputValues = data.input_values;
-  const ticketSolved = inputValues["is-case-solved"];
+  const ticketSolved = inputValues?.["is-case-solved"];
 
   // submit the solved case form
   if (
