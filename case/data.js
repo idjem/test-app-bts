@@ -101,15 +101,25 @@ exports.convertInputToCase = (payfitAdminId, billingAccountId, inputValues) => {
       Status: "Solved",
     };
   } else {
-    const caseLevel = getOptionValue(newCase, inputValues["case-level"]);
+    const caseLevel = inputValues["case-level"];
 
     const salesforceCase = {
       Subject: inputValues["case-subject"],
       Description: inputValues["case-description"],
-      FR_Level__c: caseLevel,
+      FR_Level__c: getOptionValue(newCase, caseLevel),
       Billing_Account__c: billingAccountId,
       Payfit_Admin__c: payfitAdminId,
     };
+
+    if (caseLevel === "case-level-2") {
+      const level2Escalation = getOptionValue(
+        newCase,
+        inputValues["case-escalation-reason"]
+      );
+      salesforceCase.FR_Level_2_Escalation_Reason__c = level2Escalation;
+      salesforceCase.FR_Level_2_Escalation_Comment__c =
+        inputValues["case-escalation-comment"];
+    }
 
     if (caseLevel === "case-level-escalation") {
       const specificEscalation = getOptionValue(
