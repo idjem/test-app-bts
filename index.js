@@ -50,10 +50,7 @@ app.post("/new-case", async (req, res) => {
   const ticketSolved = inputValues?.["is-case-solved"];
 
   // submit the solved case form
-  if (
-    data.component_id === "is-case-solved" &&
-    ticketSolved === "case-solved"
-  ) {
+  if (data.component_id === "case-submit" && ticketSolved === "case-solved") {
     // create salesforce case
     const users = await getPayfitAdmin(data.customer.user_id);
     const caseCategory = getCategory(inputValues["case-category"]);
@@ -104,7 +101,7 @@ app.post("/new-case", async (req, res) => {
       },
     });
   } else if (
-    data.component_id === "is-case-solved" &&
+    data.component_id === "case-submit" &&
     ticketSolved === "case-unsolved"
   ) {
     console.log("send unsolved case to salesforce");
