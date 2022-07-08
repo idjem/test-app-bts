@@ -364,6 +364,7 @@ exports.isCaseSolvedOptions = exports.newCase = new Map([
                         nextStep: new Map([
                           CASE_SUBJECT_INPUT,
                           CASE_DESCRIPTION_INPUT,
+                          CASE_SUBMIT_BUTTON,
                         ]),
                       },
                     ],
@@ -374,6 +375,7 @@ exports.isCaseSolvedOptions = exports.newCase = new Map([
                         nextStep: new Map([
                           CASE_SUBJECT_INPUT,
                           CASE_DESCRIPTION_INPUT,
+                          CASE_SUBMIT_BUTTON,
                         ]),
                       },
                     ],
