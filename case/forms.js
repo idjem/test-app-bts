@@ -28,6 +28,56 @@ const CASE_SUBMIT_BUTTON = [
     },
   },
 ];
+
+const CASE_LEVEL2_ESCALATION_REASON = [
+  "case-escalation-reason",
+  {
+    type: "dropdown",
+    label: "Level 2 escalation reason",
+    options: new Map([
+      [
+        "case-escalation-reason-uncomplete",
+        {
+          text: "Les articles du HC et les macros ne fournissent pas une réponse complètes",
+        },
+      ],
+      [
+        "case-escalation-reason-aggression",
+        { text: "Suite à ma 1ère réponse, le client devient agressif" },
+      ],
+      [
+        "case-escalation-reason-app",
+        {
+          text: "J’ai besoin d’aller sur les “actions cachées” ou la “pre-prod” via l’app",
+        },
+      ],
+      [
+        "case-escalation-reason-impact",
+        { text: "Le problème impact plus de 3 employés" },
+      ],
+      [
+        "case-escalation-reason-opened",
+        {
+          text: "La requête a 2 touches* minimum ET est ouverte depuis au moins 2 business day",
+        },
+      ],
+      [
+        "case-escalation-reason-csm",
+        { text: "Je suis CSM mais je traite un ticket de Level 1" },
+      ],
+      ["case-escalation-reason-other", { text: "Autre raison ?" }],
+    ]),
+  },
+];
+
+const CASE_LEVEL2_ESCALATION_COMMENT = [
+  "case-escalation-comment",
+  {
+    type: "textarea",
+    label: "Level 2 escalation comment",
+  },
+];
+
 const CASE_ACCESS_SUBCATEGORY2_OPTIONS = new Map([
   ["module-activation", { text: "Activation d'un module" }],
   ["employees-role-permission", { text: "Rôles et permissions des employés" }],
@@ -378,6 +428,8 @@ exports.isCaseSolvedOptions = exports.newCase = new Map([
                         nextStep: new Map([
                           CASE_SUBJECT_INPUT,
                           CASE_DESCRIPTION_INPUT,
+                          CASE_LEVEL2_ESCALATION_REASON,
+                          CASE_LEVEL2_ESCALATION_COMMENT,
                           CASE_SUBMIT_BUTTON,
                         ]),
                       },
