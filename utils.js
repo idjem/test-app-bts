@@ -74,24 +74,24 @@ const generateForm = function* (formObject, inputValues) {
   for (const [id, inputObject] of formObject) {
     switch (inputObject.type) {
       case "single-select":
-        yield generateSingleSelect(id, inputObject, inputValues[id]);
+        yield generateSingleSelect(id, inputObject, inputValues?.[id]);
         break;
       case "input":
-        yield generateInput(id, inputObject, inputValues[id]);
+        yield generateInput(id, inputObject, inputValues?.[id]);
         break;
       case "dropdown":
-        yield generateDropdown(id, inputObject, inputValues[id]);
+        yield generateDropdown(id, inputObject, inputValues?.[id]);
         break;
       case "textarea":
-        yield generateTextArea(id, inputObject, inputValues[id]);
+        yield generateTextArea(id, inputObject, inputValues?.[id]);
         break;
       case "button":
         yield generateButton(id, inputObject);
         break;
     }
     // generate next step field has next step value
-    if (inputValues[id] && inputObject.options?.has(inputValues[id])) {
-      const optionObject = inputObject.options.get(inputValues[id]);
+    if (inputValues?.[id] && inputObject.options?.has(inputValues?.[id])) {
+      const optionObject = inputObject.options.get(inputValues?.[id]);
       if (optionObject.nextStep)
         yield* generateForm(optionObject.nextStep, inputValues);
     }
