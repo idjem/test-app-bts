@@ -72,7 +72,7 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
         },
         {
           type: "button",
-          id: "new-case-url",
+          id: "company-url",
           label: "Open company in back office",
           style: "link",
           action: {
@@ -82,7 +82,7 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
         },
         {
           type: "button",
-          id: "new-case-url",
+          id: "billing-account-url",
           label: "Open billing account",
           style: "link",
           action: {
