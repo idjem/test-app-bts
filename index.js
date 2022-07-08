@@ -18,8 +18,8 @@ app.use(express.json());
 
 app.post("/salesforce", async (req, res) => {
   const data = req.body;
-  const users = await getPayfitAdmin(data.customer.user_id);
-  if (users.length === 0) {
+  const user = await getPayfitAdmin(data.customer.user_id);
+  if (!user) {
     return res.status(200).json({
       canvas: {
         content: {
@@ -31,7 +31,6 @@ app.post("/salesforce", async (req, res) => {
       },
     });
   }
-  const user = users[0];
   const contact = await getContact(user.contact__c);
   const billingAccount = await getBillingAccount(user.billingAccount);
   res.status(200).json(
