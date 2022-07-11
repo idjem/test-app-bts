@@ -14,35 +14,38 @@ const {
   connect,
   getCaseLink,
 } = require("./salesForce");
+const { auth } = require("./auth");
 
 app.use(express.json());
 
-app.post("/salesforce", async (req, res) => {
-  const data = req.body;
-  console.log("DEBUG =========== HEADER", req.header("X-Body-Signature"));
-  console.log("DEBUG ======= BODY", JSON.stringify(data, null, 2));
-  const user = await getPayfitAdmin(data.customer.user_id);
-  if (!user) {
-    return res.status(200).json({
-      canvas: {
-        content: {
-          components: {
-            type: "text",
-            text: "No salesforce user was found for this conversation",
+app.post(
+  "/salesforce",
+  auth(process.env.INTERCOM_SALESFORCE_USER_SECRETS),
+  async (req, res) => {
+    const data = req.body;
+    const user = await getPayfitAdmin(data.customer.user_id);
+    if (!user) {
+      return res.status(200).json({
+        canvas: {
+          content: {
+            components: {
+              type: "text",
+              text: "No salesforce user was found for this conversation",
+            },
           },
         },
-      },
+      });
+    }
+    const contact = await getContact(user.contact__c);
+    const billingAccount = await getBillingAccount(user.billingAccount);
+    const response = salesforceUser({
+      payfitAdminUser: user,
+      contact: contact[0],
+      billingAccount: billingAccount[0],
     });
+    res.status(200).json(response);
   }
-  const contact = await getContact(user.contact__c);
-  const billingAccount = await getBillingAccount(user.billingAccount);
-  const response = salesforceUser({
-    payfitAdminUser: user,
-    contact: contact[0],
-    billingAccount: billingAccount[0],
-  });
-  res.status(200).json(response);
-});
+);
 
 app.post("/new-case", async (req, res) => {
   const data = req.body;
@@ -91,6 +94,14 @@ app.post("/new-case", async (req, res) => {
       },
     });
   }
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.message);
+  if (!err.statusCode) err.statusCode = 500;
+  res.status(err.statusCode).json({
+    message: err.message,
+  });
 });
 
 (async () => {
