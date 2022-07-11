@@ -54,17 +54,19 @@ app.post(
     const data = req.body;
     const inputValues = data.input_values;
     const conversationId = data.conversation?.id;
+    const adminEmail = data.admin.email;
 
     // submit the solved case form
     if (data.component_id === "case-submit") {
       // create salesforce case
       const payfitAdmin = await getPayfitAdmin(data.customer.user_id);
-      const salesforceCase = convertInputToCase(
-        payfitAdmin.Id,
-        payfitAdmin.Billing_Account__c,
+      const salesforceCase = convertInputToCase({
+        payfitAdminId: payfitAdmin.Id,
+        billingAccountId: payfitAdmin.Billing_Account__c,
         inputValues,
-        conversationId
-      );
+        conversationId,
+        adminEmail,
+      });
       const newCase = await createCase(salesforceCase);
       return res.status(200).json({
         canvas: {
