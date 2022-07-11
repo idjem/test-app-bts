@@ -47,54 +47,58 @@ app.post(
   }
 );
 
-app.post("/new-case", async (req, res) => {
-  const data = req.body;
-  const inputValues = data.input_values;
+app.post(
+  "/new-case",
+  auth(process.env.INTERCOM_CREATE_CASE_SECRETS),
+  async (req, res) => {
+    const data = req.body;
+    const inputValues = data.input_values;
 
-  // submit the solved case form
-  if (data.component_id === "case-submit") {
-    // create salesforce case
-    const payfitAdmin = await getPayfitAdmin(data.customer.user_id);
-    const salesforceCase = convertInputToCase(
-      payfitAdmin.Id,
-      payfitAdmin.Billing_Account__c,
-      inputValues
-    );
-    const newCase = await createCase(salesforceCase);
-    return res.status(200).json({
-      canvas: {
-        content: {
-          components: [
-            {
-              type: "text",
-              text: "New case created",
-            },
-            {
-              type: "button",
-              id: "new-case-url",
-              label: "Open case in salesforce",
-              style: "link",
-              action: {
-                type: "url",
-                url: getCaseLink(newCase.id),
+    // submit the solved case form
+    if (data.component_id === "case-submit") {
+      // create salesforce case
+      const payfitAdmin = await getPayfitAdmin(data.customer.user_id);
+      const salesforceCase = convertInputToCase(
+        payfitAdmin.Id,
+        payfitAdmin.Billing_Account__c,
+        inputValues
+      );
+      const newCase = await createCase(salesforceCase);
+      return res.status(200).json({
+        canvas: {
+          content: {
+            components: [
+              {
+                type: "text",
+                text: "New case created",
               },
-            },
-          ],
+              {
+                type: "button",
+                id: "new-case-url",
+                label: "Open case in salesforce",
+                style: "link",
+                action: {
+                  type: "url",
+                  url: getCaseLink(newCase.id),
+                },
+              },
+            ],
+          },
         },
-      },
-    });
-  } else {
-    // generate a form
-    const form = [...generateForm(newCase, inputValues, data.component_id)];
-    res.status(200).json({
-      canvas: {
-        content: {
-          components: form,
+      });
+    } else {
+      // generate a form
+      const form = [...generateForm(newCase, inputValues, data.component_id)];
+      res.status(200).json({
+        canvas: {
+          content: {
+            components: form,
+          },
         },
-      },
-    });
+      });
+    }
   }
-});
+);
 
 app.use((err, req, res, next) => {
   console.error(err.message);
