@@ -39,7 +39,6 @@ app.post("/salesforce", async (req, res) => {
     contact: contact[0],
     billingAccount: billingAccount[0],
   });
-  console.log("DEBUG =========> ", JSON.stringify(response, null, 2));
   res.status(200).json(response);
 });
 
