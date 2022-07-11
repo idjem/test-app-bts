@@ -28,10 +28,13 @@ app.post(
       return res.status(200).json({
         canvas: {
           content: {
-            components: {
-              type: "text",
-              text: "No salesforce user was found for this conversation",
-            },
+            components: [
+              {
+                type: "text",
+                text: "No salesforce user was found for this conversation",
+                style: "error",
+              },
+            ],
           },
         },
       });
