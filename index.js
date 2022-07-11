@@ -19,6 +19,8 @@ app.use(express.json());
 
 app.post("/salesforce", async (req, res) => {
   const data = req.body;
+  console.log("DEBUG =========== HEADER", req.header("X-Body-Signature"));
+  console.log("DEBUG ======= BODY", JSON.stringify(data, null, 2));
   const user = await getPayfitAdmin(data.customer.user_id);
   if (!user) {
     return res.status(200).json({
