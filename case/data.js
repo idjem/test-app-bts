@@ -95,7 +95,12 @@ exports.salesforceUser = ({ payfitAdminUser, contact, billingAccount }) => ({
   },
 });
 
-exports.convertInputToCase = (payfitAdminId, billingAccountId, inputValues) => {
+exports.convertInputToCase = (
+  payfitAdminId,
+  billingAccountId,
+  inputValues,
+  conversationId
+) => {
   const isCaseSolved = inputValues["is-case-solved"];
 
   if (isCaseSolved === "case-solved") {
@@ -119,6 +124,7 @@ exports.convertInputToCase = (payfitAdminId, billingAccountId, inputValues) => {
       Billing_Account__c: billingAccountId,
       Payfit_Admin__c: payfitAdminId,
       Status: "Solved",
+      Intercom_Chat_Id__c: conversationId,
     };
   } else {
     const caseLevel = inputValues["case-level"];
@@ -129,6 +135,7 @@ exports.convertInputToCase = (payfitAdminId, billingAccountId, inputValues) => {
       FR_Level__c: getOptionValue(newCase, caseLevel),
       Billing_Account__c: billingAccountId,
       Payfit_Admin__c: payfitAdminId,
+      Intercom_Chat_Id__c: conversationId,
     };
 
     if (caseLevel === "case-level-2") {

@@ -53,6 +53,7 @@ app.post(
   async (req, res) => {
     const data = req.body;
     const inputValues = data.input_values;
+    const conversationId = data.conversation?.id;
 
     // submit the solved case form
     if (data.component_id === "case-submit") {
@@ -61,7 +62,8 @@ app.post(
       const salesforceCase = convertInputToCase(
         payfitAdmin.Id,
         payfitAdmin.Billing_Account__c,
-        inputValues
+        inputValues,
+        conversationId
       );
       const newCase = await createCase(salesforceCase);
       return res.status(200).json({
