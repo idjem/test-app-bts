@@ -34,13 +34,13 @@ app.post("/salesforce", async (req, res) => {
   }
   const contact = await getContact(user.contact__c);
   const billingAccount = await getBillingAccount(user.billingAccount);
-  res.status(200).json(
-    salesforceUser({
-      payfitAdminUser: user,
-      contact: contact[0],
-      billingAccount: billingAccount[0],
-    })
-  );
+  const response = salesforceUser({
+    payfitAdminUser: user,
+    contact: contact[0],
+    billingAccount: billingAccount[0],
+  });
+  console.log("DEBUG =========> ", response);
+  res.status(200).json(response);
 });
 
 app.post("/new-case", async (req, res) => {
