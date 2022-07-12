@@ -162,7 +162,7 @@ exports.convertInputToCase = ({
     } else if (caseLevel === "case-level-decla") {
       const declaLevel = getOptionValue(
         newCase,
-        inputValues["case-level-decla"]
+        inputValues["case-decla-organism"]
       );
       salesforceCase.Organisme_Contact__c = declaLevel;
     }
